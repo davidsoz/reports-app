@@ -1,20 +1,17 @@
-import { Input } from 'semantic-ui-react';
-import styled from 'styled-components';
+import { Input } from "semantic-ui-react";
+import styled from "styled-components";
 
 const StyledDate = styled(Input)`
-    &.ui.input>input {
-        background-color: #1BC5BD;
-        color: #fff;
-        border-radius: 5px;
-        width: 145px; 
-    }
-`
-  
-function DatePicker(props) {
+  &.ui.input > input {
+    background-color: #1bc5bd;
+    color: #fff;
+    border-radius: 5px;
+    width: 145px;
+  }
+`;
 
-    return (
-        <StyledDate type='date' {...props}/>
-    )
+function DatePicker(props) {
+  return <StyledDate type="date" {...props} />;
 }
 
 export default DatePicker;

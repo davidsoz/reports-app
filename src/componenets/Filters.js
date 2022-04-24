@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import Table from "./Table";
 import Button from "./UI/Button";
 import DatePicker from "./UI/DatePicker";
 import Dropdown from "./UI/Dropdown";
@@ -8,7 +9,7 @@ const FiltersContainer = styled.div`
     justify-content: space-between;
     align-items: top;
     flex-grow: 1;
-    padding-right: 100px;
+    align-items: flex-start;
     div:last-child {
         display: flex;
         align-items: flex-start;
@@ -36,7 +37,7 @@ function Filters() {
         <FiltersContainer>
             <Description>
                 <span>Reports</span>
-                <span>Easily generate a report of yout transactions</span>
+                <span>Easily generate a report of your transactions</span>
             </Description>
             <div>
                 <Dropdown />
