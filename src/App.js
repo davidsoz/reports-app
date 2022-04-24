@@ -4,6 +4,8 @@ import Header from './componenets/Header';
 import SideBar from './componenets/SideBar';
 import Filters from './componenets/Filters';
 import Table from './componenets/Table';
+import { useEffect, useState } from 'react';
+import { getGateways, getProjects } from './api';
 
 const SideBarFiltersContainer = styled.div`
   display: flex;
@@ -18,10 +20,9 @@ const MainContainer = styled.div`
 
 const Content = styled.div`
     margin-top: 27px;
-  padding: 18px 24px;
-  border-radius: 10px;
-  background-color: #f1fafe;
-
+    padding: 18px 24px;
+    border-radius: 10px;
+    background-color: #f1fafe;
 `;
 
 const Footer = styled.div`
@@ -34,13 +35,25 @@ const Footer = styled.div`
 
 
 function App() {
+  const [allProjects, setAllProjects] = useState([]);
+  const [allGateways, setAllGateways] = useState([]);
+
+  useEffect(() => {
+    Promise.all([getProjects(), getGateways()])
+    .then(res => {
+      setAllProjects(res[0].data);
+      console.log(res[1].data);
+      setAllGateways(res[1].data);
+    })
+  }, []);
+
   return (
     <div className="App">
       <Header />
       <SideBarFiltersContainer>
         <SideBar />
         <MainContainer>
-          <Filters />
+          <Filters projects={allProjects} gateways={allGateways} />
           <Content>
             <div>
               <strong>Project 1</strong>

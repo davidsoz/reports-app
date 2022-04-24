@@ -32,7 +32,7 @@ const Description = styled.div`
     }
 `;
 
-function Filters() {
+function Filters({projects, gateways}) {
     return (
         <FiltersContainer>
             <Description>
@@ -40,8 +40,8 @@ function Filters() {
                 <span>Easily generate a report of your transactions</span>
             </Description>
             <div>
-                <Dropdown />
-                <Dropdown />
+                <Dropdown placeholder='Choose project' options={projects.map(project => ({key: project.projectId, value: project.projectId, text: project.name}))}/>
+                <Dropdown placeholder='Choose gateway' options={gateways.map(gateway => ({key: gateway.gatewayId, value: gateway.gatewayId, text: gateway.name}))}/>
                 <DatePicker value='1995-05-05' onChange={(value, d) => console.log(d.value)}/>
                 <DatePicker />
                 <Button text='Generate report' onClick={() => console.log(1)}/>
