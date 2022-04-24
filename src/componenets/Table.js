@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { Grid } from "semantic-ui-react";
 import styled from "styled-components";
+import { sumTransactions } from "../helpers";
 
 const TableHeader = styled.div`
     display: flex;
@@ -42,20 +43,22 @@ const GridRow = styled(Grid.Row)`
     }
 `;
 
-function Table({ headings, rows, extendable, extend = false }) {
+function Table({title, headings, rows, extendable, extend = false }) {
     const [extendTable, setExtendTable] = useState(extend);
 
     function toglExtendTable() {
         setExtendTable(!extendTable);
     }
 
+	const total = useMemo(() => sumTransactions(rows), [rows])
+
     return (
         <>
             <TableContainer>
                 {extendable && (
                     <TableHeader onClick={toglExtendTable}>
-                        <div>Project 1</div>
-                        <div>TOTAL: 10 065 $ </div>
+                        <div>{title}</div>
+                        <div>TOTAL: {total} $ </div>
                     </TableHeader>
                 )}
                 {(!extendable || extendTable) && (

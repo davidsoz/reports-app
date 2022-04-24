@@ -4,9 +4,10 @@ import Header from "./componenets/Header";
 import SideBar from "./componenets/SideBar";
 import Filters from "./componenets/Filters";
 import Table from "./componenets/Table";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { getGateways, getProjects, getReport } from "./api";
 import { Dimmer, Loader } from "semantic-ui-react";
+import { sumTransactions } from "./helpers";
 
 const SideBarFiltersContainer = styled.div`
     display: flex;
@@ -40,6 +41,7 @@ function App() {
     const [report, setReport] = useState(null);
     const [headings, setHeadings] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [total, setTotal] = useState(0);
 
     const dataIsReady = useRef(false);
 
@@ -78,6 +80,7 @@ function App() {
                     ).name;
                     data.amount += " USD";
                 });
+                setTotal(sumTransactions(res.data));
                 const report = {};
                 if (filtersRef.current.projectId == null) {
                     allProjects.forEach((project) => {
@@ -177,6 +180,7 @@ function App() {
                                           extend={index === 0}
                                           headings={headings}
                                           rows={report[project.projectId]}
+                                          title={project.name}
                                       />
                                   ))
                                 : !loading &&
@@ -188,6 +192,7 @@ function App() {
                                           extend={index === 0}
                                           headings={headings}
                                           rows={report[gateway.gatewayId]}
+                                          title={gateway.name}
                                       />
                                   ))
                                 : !loading && (
@@ -199,7 +204,7 @@ function App() {
                     </Content>
                     <Footer>
                         <span>TOTAL: </span>
-                        <span>14,065 $</span>
+                        <span>{total} $</span>
                     </Footer>
                 </MainContainer>
             </SideBarFiltersContainer>
