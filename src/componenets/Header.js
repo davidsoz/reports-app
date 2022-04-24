@@ -1,15 +1,14 @@
 import Logo from "../icons/Logo";
 import UserIcon from "../icons/UserIcon";
 import MenuIcon from "../icons/MenuIcon";
-import styled from 'styled-components';
-
+import styled from "styled-components";
 
 const StyledHeder = styled.header`
-    padding: 20px 100px 16px 0; 
+    padding: 20px 100px 16px 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 2px solid #F3F6F9;
+    border-bottom: 2px solid #f3f6f9;
     div {
         display: flex;
         align-items: center;
@@ -23,28 +22,23 @@ const StyledHeder = styled.header`
     }
 `;
 
-
-
 function Header() {
-  return (
-      <>
-       <StyledHeder>
-      <div>
-          <div>
-            <Logo />
-          </div>
-        <MenuIcon />
-      </div>
-      <div>
-        <UserIcon />
-        <span>John Doe</span>
-      </div>
-      
-    </StyledHeder>
-    
-      </>
-   
-  );
+    return (
+        <>
+            <StyledHeder>
+                <div>
+                    <div>
+                        <Logo />
+                    </div>
+                    <MenuIcon />
+                </div>
+                <div>
+                    <UserIcon />
+                    <span>John Doe</span>
+                </div>
+            </StyledHeder>
+        </>
+    );
 }
 
 export default Header;

@@ -1,10 +1,9 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 import BarChart from "../icons/BarChart";
 import AppChart from "../icons/AppChart";
 import Laptop from "../icons/Laptop";
 import PieChart from "../icons/PieChart";
 import OffIcon from "../icons/OffIcon";
-
 
 const StyledSideBar = styled.div`
     display: flex;
@@ -13,7 +12,6 @@ const StyledSideBar = styled.div`
     padding: 0 35px;
 `;
 function SideBar() {
-
     return (
         <StyledSideBar>
             <BarChart />
@@ -22,7 +20,7 @@ function SideBar() {
             <PieChart />
             <OffIcon />
         </StyledSideBar>
-    )
+    );
 }
 
 export default SideBar;
