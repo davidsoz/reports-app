@@ -8,6 +8,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { getGateways, getProjects, getReport } from "./api";
 import { Dimmer, Loader } from "semantic-ui-react";
 import { sumTransactions } from "./helpers";
+import Chart from "./componenets/Chart";
 
 const SideBarFiltersContainer = styled.div`
     display: flex;
@@ -20,8 +21,15 @@ const MainContainer = styled.div`
     width: 100%;
 `;
 
+const ContentWrapper = styled.div`
+	margin-top: 27px;
+	display: flex;
+	justify-content: space-between;
+	gap: 20px;
+`;
+
 const Content = styled.div`
-    margin-top: 27px;
+	flex-grow: 1;
     padding: 18px 24px;
     border-radius: 10px;
     background-color: #f1fafe;
@@ -149,59 +157,78 @@ function App() {
                         gateways={allGateways}
                         onGenerate={generateReport}
                     />
-                    <Content>
-                        <div>
-                            <strong>
-                                {filtersRef.current.projectId
-                                    ? allProjects.find(
-                                          (project) =>
-                                              project.projectId ===
-                                              filtersRef.current.projectId
-                                      ).name
-                                    : "All projects"}
-                            </strong>
-                            <strong> | </strong>
-                            <strong>
-                                {filtersRef.current.gatewayId
-                                    ? allGateways.find(
-                                          (gateway) =>
-                                              gateway.gatewayId ===
-                                              filtersRef.current.gatewayId
-                                      ).name
-                                    : "All gateways"}
-                            </strong>
-                        </div>
-                        {report &&
-                            (!loading && filtersRef.current.projectId == null
-                                ? allProjects.map((project, index) => (
-                                      <Table
-                                          key={project.projectId}
-                                          extendable
-                                          extend={index === 0}
-                                          headings={headings}
-                                          rows={report[project.projectId]}
-                                          title={project.name}
-                                      />
-                                  ))
-                                : !loading &&
-                                  filtersRef.current.gatewayId == null
-                                ? allGateways.map((gateway, index) => (
-                                      <Table
-                                          key={gateway.gatewayId}
-                                          extendable
-                                          extend={index === 0}
-                                          headings={headings}
-                                          rows={report[gateway.gatewayId]}
-                                          title={gateway.name}
-                                      />
-                                  ))
-                                : !loading && (
-                                      <Table
-                                          headings={headings}
-                                          rows={report.data}
-                                      />
-                                  ))}
-                    </Content>
+					<ContentWrapper>
+						<Content>
+							<div>
+								<strong>
+									{filtersRef.current.projectId
+										? allProjects.find(
+											(project) =>
+												project.projectId ===
+												filtersRef.current.projectId
+										).name
+										: "All projects"}
+								</strong>
+								<strong> | </strong>
+								<strong>
+									{filtersRef.current.gatewayId
+										? allGateways.find(
+											(gateway) =>
+												gateway.gatewayId ===
+												filtersRef.current.gatewayId
+										).name
+										: "All gateways"}
+								</strong>
+							</div>
+							{report &&
+								(!loading && filtersRef.current.projectId == null
+									? allProjects.map((project, index) => (
+										<Table
+											key={project.projectId}
+											extendable
+											extend={index === 0}
+											headings={headings}
+											rows={report[project.projectId]}
+											title={project.name}
+										/>
+									))
+									: !loading &&
+									filtersRef.current.gatewayId == null
+									? allGateways.map((gateway, index) => (
+										<Table
+											key={gateway.gatewayId}
+											extendable
+											extend={index === 0}
+											headings={headings}
+											rows={report[gateway.gatewayId]}
+											title={gateway.name}
+										/>
+									))
+									: !loading && (
+										<Table
+											headings={headings}
+											rows={report.data}
+										/>
+									))}
+						</Content>
+						{
+							!loading && filtersRef.current.projectId == null && filtersRef.current.gatewayId != null &&
+							 <Chart data={allProjects.map(project => ({
+								label: project.name,
+								value: sumTransactions(report[project.projectId], false)
+							 }))} />
+
+						}
+
+						{
+							!loading && filtersRef.current.gatewayId == null && filtersRef.current.projectId != null &&
+							 <Chart data={allGateways.map(gateway => ({
+								label: gateway.name,
+								value: sumTransactions(report[gateway.gatewayId], false)
+							 }))} />
+
+						}
+					</ContentWrapper>
                     <Footer>
                         <span>TOTAL: </span>
                         <span>{total} $</span>
